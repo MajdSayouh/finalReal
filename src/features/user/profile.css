@@ -1,0 +1,33 @@
+.page-profile {
+  color: white;
+  background-color: rgb(201, 234, 201);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.formStyle {
+  background-color: #fff;
+  padding: 30px;
+  width: 50%;
+  border-radius: 12px;
+  margin-top: 2% !important;
+  
+}
+
+.profile-header {
+  border-bottom: gray 2px solid;
+  margin-bottom: 5%;
+}
+
+@media (max-width: 992px) {
+  .formStyle {
+    background-color: #fff;
+    padding: 30px;
+    width: 80%;
+    border-radius: 12px;
+  }
+}

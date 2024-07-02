@@ -1,0 +1,26 @@
+
+/* .liStyle:hover{
+    border-bottom: solid 2px #9daf9c;
+    cursor: pointer;
+    /* transform: translateY(5px); */
+    /* transition:  ; */
+
+.liStyle:after{
+    content: '';
+    position: absolute;
+    width: 0; 
+    height: 3px;
+    display: block;
+    margin-top: 5px;
+    right: 0;
+    background: #9daf9c;
+    transition: width .2s ease;
+    -webkit-transition: width .2s ease;
+  }
+   
+  .liStyle:hover:after{
+    /* width: 100%; */
+    left: 0;
+    background:  #9daf9c;
+  }
+  

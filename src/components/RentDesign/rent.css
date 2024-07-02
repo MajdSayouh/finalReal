@@ -1,0 +1,9 @@
+/* .label-form {
+  font-size: 24px;
+  font-weight: bold;
+  transform: translateX(0.9s);
+} */
+.input-form:focus + .label-form {
+  transform: translateY(-15px);
+  transition: transform 0.3s ease-in-out;
+}

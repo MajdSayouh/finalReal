@@ -1,0 +1,108 @@
+.dashboard {
+  background-color: #fafafa;
+  height: 100vh;
+
+}
+
+.addRent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+@media (max-width: 990px) {
+  .addRent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin: auto;
+    padding: 50px;
+    width: 100%;
+    text-align: center;
+    gap: 10px;
+  }
+  .cardStyle {
+    width: 100% !important;
+    background-color: white;
+    padding: 60px;
+    border: 2px solid gray;
+    border-radius: 17px;
+    margin-top: 40%;
+    font-size: 24px;
+    font-weight: bold;
+    color: green;
+    font-style: italic;
+    outline: green 3px;
+    outline-offset: 3px;
+    box-shadow: 0 0 20px 0 rgba(0, 100, 0, 0.4);
+  }
+}
+.cardStyle {
+  width: 50%;
+  background-color: white;
+  padding: 60px;
+  border: 2px solid gray;
+  border-radius: 17px;
+  margin-top: 15%;
+  font-size: 24px;
+  font-weight: bold;
+  color: green;
+  font-style: italic;
+  outline: green 3px;
+  outline-offset: 3px;
+  box-shadow: 0 0 20px 0 rgba(0, 100, 0, 0.4);
+ 
+}
+
+.cardStyle:hover {
+  background-color: lightgreen;
+
+  transition: 0.8s;
+  cursor: pointer;
+  transform: translateY(15px);
+}
+
+@media (max-width: 520px) {
+  .cardStyle {
+    width: 100% !important;
+    background-color: white;
+    padding: 60px;
+    border: 2px solid gray;
+    border-radius: 17px;
+    /* opacity: ; */
+    margin-top: 50%;
+    font-size: 24px;
+    font-weight: bold;
+    color: green;
+    font-style: italic;
+    outline: green 3px;
+    outline-offset: 3px;
+    box-shadow: 0 0 20px 0 rgba(0, 100, 0, 0.4);
+  }
+}
+.card {
+  width: 190px;
+  height: 254px;
+  background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
+  border-radius: 20px;
+  transition: all .3s;
+ }
+ 
+ .card2 {
+  width: 190px;
+  height: 254px;
+  background-color: #1a1a1a;
+  border-radius:;
+  transition: all .2s;
+ }
+ 
+ .card2:hover {
+  transform: scale(0.98);
+  border-radius: 20px;
+ }
+ 
+ .card:hover {
+  box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.30);
+ }

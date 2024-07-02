@@ -1,0 +1,104 @@
+
+.landing{
+    position: absolute;
+    width: 100%;
+}
+.form {
+    background-color: white;
+
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    height: 20rem;
+    border-radius: 12px;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.3);
+    padding: 0px;
+    width: 40%;
+    padding: 10px;
+ 
+}
+
+@media (max-width:720px) {
+    .form {
+        /* background-color: white; */
+        /* background-image: */
+            /* linear-gradient(110deg,white 0%, white 50%,transparent 50%), */
+        /* url("../../../geran-de-klerk-WJkc3xZjSXw-unsplash.jpg"); */
+        /* background-position: center; */
+        /* background-size: cover; */
+        /* background-repeat: no-repeat; */
+        margin: 10px;
+        width: 90%;
+        height: 21rem;
+        /* border-radius: 12px; */
+        /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); */
+        /* padding: 15px; */
+        /* display: flex; */
+        /* gap: 20px; */
+        /* align-items: center; */
+        /* justify-content: center; */
+        /* flex-direction: column !important; */
+    }
+}
+.custom-form{
+    width: 50%;
+}
+
+.form-control{
+    /* margin-bottom: 10px; */
+    position: relative;
+    padding: 0;
+    border: none !important;
+}
+.form-control label,
+.form-control input{
+    display: block;
+}
+
+.form-control input{
+    padding: 10px 15px;
+    outline: none;
+    border-radius: 3px;
+    border: 0;
+    /* background-color: white; */
+    width: 80%;
+    border-bottom: 3px solid transparent;
+    font-family: "Lato", sans-serif;
+    box-shadow: 0 0 10px rgb(153, 152, 152) inset;
+}
+
+.form-control input:focus:valid{
+    border-bottom: 3px solid green;
+}
+.form-control input:focus:not(:valid){
+    border-bottom: 3px solid orange;
+
+}
+
+.form-control input:placeholder-shown +label{
+    opacity: 0;
+    visibility: hidden;
+    top: 20px;
+}
+.form-control label{
+    position: absolute;
+    top: -20px;
+    /* left: 0px; */
+   font-size: 13px;
+   font-weight: bold;
+   color: gray;
+   transition: 0.3s;
+}
+
+@media (max-width:992px){
+    .form {
+        background-image: linear-gradient(rgba(255,255,255,0.8) 0%,rgba(255,255,255,0.8) 100%),url("../../../geran-de-klerk-WJkc3xZjSXw-unsplash.jpg");
+    }
+    .custom-form{
+        width: 100%;
+    }
+    .form-control input{
+        width: 100%;
+    }
+}
