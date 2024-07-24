@@ -1,13 +1,15 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import cardImage from "../../assets/download.jpeg";
-import { faBath } from "@fortawesome/free-solid-svg-icons";
-import { Button } from "react-bootstrap";
-import Btn from "../../components/Button/Btn";
-import ShowAll from "../../components/ShowAll/ShowAll";
-import { Link } from "react-router-dom";
+// import Card from "../../components/cards/Card";
+import { useQuery } from "@tanstack/react-query";
+import { getProperties } from "../../services/apiProperty";
+// import Loading from "../loading/Loading";
 import PropertyCard from "../../components/cards/PropertyCard";
 
 function SaleSection() {
+  const saleQuery = useQuery({
+    queryKey: ["Sale Properties"],
+    queryFn: () => getProperties("for sale"),
+  });
+  // console.log(saleQuery);
   return (
     <div className=" p-5 bg-light">
       <div className="container ">
@@ -19,7 +21,8 @@ function SaleSection() {
           رخيصة للايجار الشهري واليومي. فريق هاوس تك يضمن مساعدتك للوصول للعقار
           المثالي الذي يلبي احتياجاتك، والتفاوض للحصول على السعر المناسب
         </div>
-        <PropertyCard property_status={"For Sale"} />
+        <PropertyCard rentData={saleQuery} />
+
         <hr className="mt-5 bg-light" />
       </div>
     </div>

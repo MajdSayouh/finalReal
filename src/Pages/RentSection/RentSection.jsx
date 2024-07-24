@@ -1,15 +1,18 @@
 /* eslint-disable no-unused-vars */
-import PropertyCard from "../../components/cards/PropertyCard";
+// import PropertyCard from "../../components/cards/PropertyCard";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProperties } from "../../services/apiProperty";
+// import Card from "../../components/cards/Card";
+// import Loading from "../../components/loading/Loading";
+import PropertyCard from "../../components/cards/PropertyCard";
 
 function RentSection() {
-  const queryClient = useQueryClient();
-  const query = useQuery({
-    queryKey: ["properties"],
-    queryFn: getProperties,
+  const rentQuery = useQuery({
+    queryKey: ["Rent Properties"],
+    queryFn: () => getProperties("for rent"),
   });
-  console.log(query);
+  // const { isSuccess } = rentQuery;
+
   return (
     <div className=" p-5 bg-light">
       <div className="container ">
@@ -21,10 +24,7 @@ function RentSection() {
           رخيصة للايجار الشهري واليومي. فريق هاوس تك يضمن مساعدتك للوصول للعقار
           المثالي الذي يلبي احتياجاتك، والتفاوض للحصول على السعر المناسب
         </div>
-        
-          <PropertyCard property_status={"For Rent"} />
-        
-
+        <PropertyCard rentData={rentQuery} />
         <hr className="mt-5 bg-light" />
       </div>
     </div>

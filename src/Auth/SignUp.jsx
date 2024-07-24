@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 // import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
 import "./signup.css";
 import axios from "axios";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import Loading from "../Pages/loading/Loading";
+import { Link, useNavigate } from "react-router-dom";
+import Loading from "../components/loading/Loading";
 
 import logo from "../assets/IMG-20231031-WA0001.jpg";
 import { Button, Form, Input, message } from "antd";

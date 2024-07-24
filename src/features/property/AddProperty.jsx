@@ -14,7 +14,7 @@ import {
   Spin,
 } from "antd";
 // import "./profile.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import Cookie from "cookie-universal";
 import TextArea from "antd/es/input/TextArea";
@@ -23,8 +23,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 import { ADD_PROPERTY, BASE } from "../../Auth/API";
 import { useNavigate } from "react-router-dom";
+import { PropertyIdContext } from "../../context/PropertyIdContext";
 
 function AddProperty() {
+  const { updatePropertyId, setLoading } = useContext(PropertyIdContext);
+
   const [updatedData, setUpdatedData] = useState({
     title: "",
     description: "",
@@ -52,6 +55,8 @@ function AddProperty() {
   };
   function handleSubmit(value) {
     setIsLoading(true);
+    // const formData = new FormData();
+
     console.log(value);
     try {
       const propertyData = {
@@ -80,6 +85,7 @@ function AddProperty() {
         covering: value.covering,
         direction: value.direction,
       };
+      // formData.append("formData", propertyData);
       const res = axios
         .post(`${BASE}/${ADD_PROPERTY}`, propertyData, {
           headers: { Authorization: `Token ${token}` },
@@ -87,7 +93,9 @@ function AddProperty() {
         .then((data) => {
           setIsLoading(false);
           console.log(data.data);
-          // setPropertyID(data.data);
+          updatePropertyId(data.data.id);
+          setLoading(false);
+
           message.success("تم إضافة العقار,قم بتحميل الصور لاستكمال العملية");
           navigate("/dashboard/add-image-property");
         });
@@ -322,11 +330,11 @@ function AddProperty() {
                       <Select
                         options={[
                           {
-                            value: "For Sale",
+                            value: "للبيع",
                             label: "للبيع",
                           },
                           {
-                            value: "For Rent",
+                            value: "للأجار",
                             label: "للإيجار",
                           },
                         ]}
@@ -347,36 +355,36 @@ function AddProperty() {
                         size="small"
                         options={[
                           {
-                            value: "House",
+                            value: "منزل",
                             label: "منزل",
                           },
                           {
-                            value: "Apartment",
+                            value: "شقة",
                             label: "شقة ",
                           },
                           {
-                            value: "Villa",
+                            value: "فيلا",
                             label: "فيلا",
                           },
                           {
-                            value: "Office",
+                            value: "مكتب",
                             label: "مكتب",
                           },
 
                           {
-                            value: "Chalet",
+                            value: "شاليه",
                             label: "شاليه",
                           },
                           {
-                            value: "Commercial",
+                            value: "مكتب عقاري",
                             label: "مكتب عقاري",
                           },
                           {
-                            value: "Farm",
+                            value: "مزرعة",
                             label: "مزرعة",
                           },
                           {
-                            value: "Other",
+                            value: "آخر",
                             label: "آخر",
                           },
                         ]}
@@ -834,11 +842,11 @@ function AddProperty() {
                     <Select
                       options={[
                         {
-                          value: "For Sale",
+                          value: "للبيع",
                           label: "للبيع",
                         },
                         {
-                          value: "For Rent",
+                          value: "للأجار",
                           label: "للإيجار",
                         },
                       ]}
@@ -859,36 +867,36 @@ function AddProperty() {
                       size="small"
                       options={[
                         {
-                          value: "House",
+                          value: "منزل",
                           label: "منزل",
                         },
                         {
-                          value: "Apartment",
+                          value: "شقة",
                           label: "شقة ",
                         },
                         {
-                          value: "Villa",
+                          value: "فيلا",
                           label: "فيلا",
                         },
                         {
-                          value: "Office",
+                          value: "مكتب",
                           label: "مكتب",
                         },
 
                         {
-                          value: "Chalet",
+                          value: "شاليه",
                           label: "شاليه",
                         },
                         {
-                          value: "Commercial",
+                          value: "مكتب عقاري",
                           label: "مكتب عقاري",
                         },
                         {
-                          value: "Farm",
+                          value: "مزرعة",
                           label: "مزرعة",
                         },
                         {
-                          value: "Other",
+                          value: "آخر",
                           label: "آخر",
                         },
                       ]}

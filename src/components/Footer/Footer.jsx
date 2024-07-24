@@ -5,7 +5,6 @@ import {
   faInstagram,
   faLinkedin,
   faTelegram,
-  faTwitch,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
@@ -39,7 +38,7 @@ const iconStyle = {
 function Footer() {
   return (
     <div className="bg-light">
-      <div className="container pt-5">
+      <div className="container px-5">
         <div>
           <div className="  text-center d-flex justify-content-center p-5 gap-5">
             <Link className="liStyle text-decoration-none text-black">

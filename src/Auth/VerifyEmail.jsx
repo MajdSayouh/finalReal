@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import Loading from "../Pages/loading/Loading";
+import Loading from "../components/loading/Loading";
 import logo from "../assets/IMG-20231031-WA0001.jpg";
 import { Button, Form, Input, message } from "antd";
 import { BASE } from "./API";

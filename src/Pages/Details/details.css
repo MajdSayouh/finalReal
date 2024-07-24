@@ -1,8 +1,41 @@
 .sections{
     background-color: white;
     width: 100%;
-    border: 1.5px solid rgba(0,0,0,.15);
+    /* border: 1.5px solid rgba(0,0,0,.15); */
     border-radius: 12px;
     padding: 10px 15px;
-    
+    /* box-shadow:rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px */
+    box-shadow:rgba(0, 0, 0, 0.15) 0px 2px 8px;
 }
+
+.img-container {
+  width: 100%;
+  height: 250px;
+}
+.img-container img {
+  width: 100%;
+  height: 100%;
+}
+
+/* .image-container {
+    display: grid;
+    grid-template-columns: 1fr; 
+    grid-auto-flow: column;
+    gap: 10px; 
+  } */
+  
+  .first-image,
+  .slide {
+    width: 100%; /* Full width for each slide */
+  }
+  
+  /* Optional: Style for the slider if needed */
+  .slider {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    white-space: nowrap; /* Keep slides inline */
+  }
+  
+
+  .imagecar{
+    height: 10% !important;
+  }

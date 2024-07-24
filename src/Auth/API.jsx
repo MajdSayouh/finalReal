@@ -25,3 +25,9 @@ export const ADD_PROPERTY_IMAGE = "properties/upload-images";
 //GET PROPERTIES
 export const GET_ALL_PROPS = "properties/all";
 export const GET_ONE_PROPS = "properties";
+export const GET_USER_PROPS = "properties/user";
+export const GET_USER_FAVORITE = "properties/user/favorites";
+
+//add To Fav
+export const ADD_TO_FAV = "properties/user/favorites/";
+export const DELETE_FROM_FAV = "properties/user/favorites/delete/";

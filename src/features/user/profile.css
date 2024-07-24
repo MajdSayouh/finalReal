@@ -31,3 +31,32 @@
     border-radius: 12px;
   }
 }
+
+
+
+/* Base styles for your link */
+.nav {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: black;
+}
+
+/* Style for the active state */
+.nav.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%; /* Start from the middle */
+  width: 0;
+  height: 2px; /*Thickness of the border*/
+  background-color: #9daf9c; /* Color of the border */
+  transform: translateX(-50%); /* Center the starting point */
+  transition: width 0.3s ease-in-out; /* Smooth transition for the width */
+}
+
+/* Hover effect to demonstrate the animation */
+.nav.active:hover::after {
+  width: 100%; /* Full width on hover */
+}

@@ -1,7 +1,7 @@
 // import React from "react";
-import LandingPage from "../../Pages/landinPage/LandingPage";
-import Footer from "../Footer/Footer";
-import NavBar from "../navbar/NavBar";
+import LandingPage from "../landinPage/LandingPage";
+import Footer from "../../components/Footer/Footer";
+import NavBar from "../../components/navbar/NavBar";
 
 const HomePage = () => {
   return (

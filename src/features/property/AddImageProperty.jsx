@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import FormHeader from "./FormHeader";
-import { Button, Col, Form, Row } from "antd";
+import { Button, Col, Form, Row, message } from "antd";
 import NavBar from "../../components/navbar/NavBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTelegram } from "@fortawesome/free-brands-svg-icons";
@@ -11,49 +11,49 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import uploadImage from "../../assets/download (1).jpeg";
 import axios from "axios";
 import { ADD_PROPERTY_IMAGE, BASE } from "../../Auth/API";
+import { PropertyIdContext } from "../../context/PropertyIdContext";
 function AddImageProperty() {
+  const { propertyId, loading } = useContext(PropertyIdContext);
+  console.log(propertyId);
   const navigate = useNavigate();
   const token = new Cookie().get("Token");
   const openImages = useRef(null);
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [fileList, setFileList] = useState([
-    {
-      uid: "-4",
-      name: "image.png",
-      status: "done",
-      url:
-        "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    },
-    {
-      uid: "-xxx",
-      percent: 50,
-      name: "image.png",
-      status: "uploading",
-      url:
-        "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    },
-    {
-      uid: "-5",
-      name: "image.png",
-      status: "error",
-    },
-  ]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleImageChange = (e) => {
+    setImages(Array.from(e.target.files));
+  };
 
   const [images, setImages] = useState([]);
   console.log(images);
-  function handleSubmit(e) {
-    // e.preventDefault();
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  function handleSubmit() {
+    setIsLoading(true);
     const formData = new FormData();
-    for (let i = 0; i < images.length; i++) {
-      formData.append("images[]", images[i]);
+    for (const image of images) {
+      console.log(image);
+      formData.append("image", image);
     }
+    formData.append("property_id", propertyId.toString());
     console.log(formData);
     try {
       const res = axios
-        .post(`${BASE}/${ADD_PROPERTY_IMAGE}`, formData)
-        .then((data) => console.log(data));
+        .post(`${BASE}/${ADD_PROPERTY_IMAGE}`, formData, {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((data) => {
+          setIsLoading(false);
+          console.log(data);
+          if (data.status === 201) navigate("/");
+        });
     } catch (err) {
+      setIsLoading(false);
+      message.error("حدث خطأ");
       console.log(err);
     }
   }
@@ -104,6 +104,7 @@ function AddImageProperty() {
                   type="file"
                   multiple
                   onChange={(e) => setImages([...e.target.files])}
+                  // onChange={handleImageChange}
                 />
               </Col>
             </Row>

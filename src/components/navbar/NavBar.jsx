@@ -1,20 +1,17 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
 import logo from "../../../src/assets/IMG-20231031-WA0001.jpg";
-// import { useEffect, useState } from "react";
-// import axios from "axios";
-// import { BASE, GET_USER } from "../../Auth/API";
+
 import Cookie from "cookie-universal";
-import GetUserData from "../../features/user/hooks/GetUserData";
-import { useEffect, useState } from "react";
-import { BASE, GET_USER } from "../../Auth/API";
-import axios from "axios";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd, faBars, faBurger } from "@fortawesome/free-solid-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { useQuery } from "@tanstack/react-query";
+import { getUserData } from "../../services/apiProperty";
 
 const NavBar = () => {
   //States
-  const [userName, setUserName] = useState("");
+  // const [userName, setUserName] = useState("");
 
   //Get Token
   const token = new Cookie().get("Token");
@@ -25,29 +22,23 @@ const NavBar = () => {
   };
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const res = await axios
-          .get(`${BASE}/${GET_USER}`, {
-            headers: { Authorization: `Token ${token}` },
-          })
-          .then(
-            (res) => setUserName(res.data.profile.full_name)
-            // console.log(res)
-            // console.log(res.data)
-          );
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getUserData();
-  }, []);
-  // const userData = GetUserData();
-  // const userName = userData.full_name;
+  const getUserDataQery = useQuery({
+    queryKey: ["getUserData"],
+    queryFn: getUserData,
+  });
 
+  console.log(getUserDataQery);
+  const { data } = getUserDataQery;
+  const userName = data?.data?.profile.full_name;
+  // console.log(data.data.profile.full_name);
   return (
-    <div>
+    <div
+      style={{
+        boxShadow:
+          " rgba(0, 0, 0, 0.1) 0px 2px 4px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px",
+        //   "rgba(0, 0, 0, 0.12) 0px 2px 4px, rgba(0, 0, 0, 0.12) 0px 2px 4px",
+      }}
+    >
       <nav className="navbar navbar-expand-lg bg-light-subtle">
         <div className="container">
           <Link to={"/"} className="navbar-brand" href="#">
@@ -90,7 +81,7 @@ const NavBar = () => {
             </ul>
             <div className="d-flex align-items-center justify-content-between gap-3">
               <form className="d-flex">
-                {userName === "" ? (
+                {userName === undefined ? (
                   <Link to={"/login"}>
                     <button
                       className="btn"
