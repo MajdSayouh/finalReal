@@ -23,8 +23,8 @@ function UserFavorites() {
       </div>
     );
   const showFavorites = favoriteQuery.data?.data.map((prop, idx) => {
-    console.log(prop.property);
-    return <Card data={prop.property} key={idx} />;
+    // console.log(prop.property.images);
+    return <Card rentData={prop.property} key={idx} />;
   });
 
   return (

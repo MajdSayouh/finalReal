@@ -1,6 +1,6 @@
 .page-profile {
   color: white;
-  background-color: rgb(201, 234, 201);
+  background-color:rgb(177 223 164 / 76%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,7 +51,7 @@
   left: 50%; /* Start from the middle */
   width: 0;
   height: 2px; /*Thickness of the border*/
-  background-color: #9daf9c; /* Color of the border */
+  background-color: #198754; /* Color of the border */
   transform: translateX(-50%); /* Center the starting point */
   transition: width 0.3s ease-in-out; /* Smooth transition for the width */
 }

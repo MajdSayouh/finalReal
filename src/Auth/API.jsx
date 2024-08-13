@@ -21,6 +21,7 @@ export const UPDATE_PROFILE = "auth/edit-profile/";
 //ADD PROPERTY
 export const ADD_PROPERTY = "properties/add/";
 export const ADD_PROPERTY_IMAGE = "properties/upload-images";
+export const DELETE_PROPERTY = "properties";
 
 //GET PROPERTIES
 export const GET_ALL_PROPS = "properties/all";

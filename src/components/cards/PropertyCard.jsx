@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBath,
   faBed,
+  faDollar,
   faKitchenSet,
   faLocation,
 } from "@fortawesome/free-solid-svg-icons";
@@ -27,7 +28,7 @@ function PropertyCard({ rentData }) {
     );
     throw new Error("asdasdasd");
   }
-  const showSale = data.data.results?.map((rent, idx) => {
+  const showSale = data.data.map((rent, idx) => {
     if (idx <= 2) {
       return (
         <Col xs={24} sm={24} lg={24} xl={8} xxl={8} key={idx}>
@@ -35,9 +36,17 @@ function PropertyCard({ rentData }) {
             <img src={rent.images[0]?.image} className="RentImage" />
             <div className="cardOverlay d-flex flex-column text-white  justify-content-between">
               <div className="cardOverlayText">
-                <div className="p-3 d-flex align-items-end justify-content-end gap-4 fs-4">
-                  <Button variant="success">
-                    <FontAwesomeIcon icon={faBath} />
+                <div className="p-2 d-flex align-items-end justify-content-end gap-4 fs-6">
+                  <Button
+                    className="btn btn-success"
+                    style={{
+                      color: "white",
+                      border: "#9daf9c",
+                    }}
+                  >
+                    <span>
+                      {rent.price} <FontAwesomeIcon icon={faDollar} />
+                    </span>
                   </Button>
                 </div>
               </div>
@@ -71,8 +80,8 @@ function PropertyCard({ rentData }) {
               <NavLink
                 to={`details/${rent.slug}`}
                 size="sm"
-                className="btn"
-                style={{ backgroundColor: "#9daf9c", color: "white" }}
+                className="btn btn-success"
+                style={{ color: "white" }}
                 onClick={() => console.log("Success")}
               >
                 تفاصيل
@@ -92,60 +101,3 @@ function PropertyCard({ rentData }) {
 }
 
 export default PropertyCard;
-
-/*
-
-   return (
-        <Col xs={24} sm={24} lg={24} xl={8} xxl={8} key={idx}>
-          <div className="cardRent" key={idx}>
-            <img src={rent.images[0]?.image} className="RentImage" />
-            <div className="cardOverlay d-flex flex-column text-white  justify-content-between">
-              <div className="cardOverlayText">
-                <div className="p-3 d-flex align-items-end justify-content-end gap-4 fs-4">
-                  <Button variant="success">
-                    <FontAwesomeIcon icon={faBath} />
-                  </Button>
-                </div>
-              </div>
-              <div>
-                <div className=" fw-bold fs-5 text-white cardOverlayText text-end py-3 px-4 ">
-                  {rent.title}
-                </div>
-                <p className="  text-white cardOverlayText text-end  px-4 ">
-                  <FontAwesomeIcon icon={faLocation} /> {rent.location.city},
-                  {rent.location.region}
-                </p>
-              </div>
-            </div>
-            <div className="pt-2 px-3 d-flex align-items-center justify-content-between">
-              <div className="d-flex flex-column justify-content-center align-items-center">
-                <FontAwesomeIcon icon={faBath} size="lg" color="gray" />
-                <p>{rent.bathrooms}</p>
-              </div>
-              <div className="d-flex flex-column justify-content-center align-items-center">
-                <FontAwesomeIcon icon={faKitchenSet} size="lg" />
-                <p>{rent.kitchens}</p>
-              </div>
-              <div className="d-flex flex-column justify-content-center align-items-center">
-                <FontAwesomeIcon icon={faBed} size="lg" />
-                <p>{rent.bedrooms}</p>
-              </div>
-            </div>
-            <hr className="hrLine" />
-            <div className="d-flex align-items-center justify-content-between px-4">
-              <h6>السعر: {rent.price}ل.س</h6>
-              <NavLink
-                to={`details/${rent.slug}`}
-                size="sm"
-                className="btn"
-                style={{ backgroundColor: "#9daf9c", color: "white" }}
-                onClick={() => console.log("Success")}
-              >
-                تفاصيل
-              </NavLink>
-            </div>
-          </div>
-        </Col>
-      );
-
-*/

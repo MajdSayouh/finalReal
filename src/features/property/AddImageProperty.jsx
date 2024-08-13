@@ -1,6 +1,6 @@
 import { useContext, useRef, useState } from "react";
 import FormHeader from "./FormHeader";
-import { Button, Col, Form, Row, message } from "antd";
+import { Button, Col, Form, Row, Spin, message } from "antd";
 import NavBar from "../../components/navbar/NavBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTelegram } from "@fortawesome/free-brands-svg-icons";
@@ -12,6 +12,7 @@ import uploadImage from "../../assets/download (1).jpeg";
 import axios from "axios";
 import { ADD_PROPERTY_IMAGE, BASE } from "../../Auth/API";
 import { PropertyIdContext } from "../../context/PropertyIdContext";
+import Loading from "../../components/loading/Loading";
 function AddImageProperty() {
   const { propertyId, loading } = useContext(PropertyIdContext);
   console.log(propertyId);
@@ -27,7 +28,7 @@ function AddImageProperty() {
   const [images, setImages] = useState([]);
   console.log(images);
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
   function handleSubmit() {
     setIsLoading(true);
@@ -58,27 +59,37 @@ function AddImageProperty() {
     }
   }
 
+  function handleRemove(){
+    
+  }
+
   console.log(images);
 
   const showImages = images.map((image, key) => {
     return (
       <div
         key={key}
-        className=" d-flex bg-light align-items-center justify-content-start gap-2 p-2 border"
+        className="d-flex justify-content-between w-100 bg-light align-items-center  p-2 border"
       >
-        <img src={URL.createObjectURL(image)} width={"80px"} />
-        <div className="d-flex justify-content-between align-items-center ">
+        <div className="d-flex justify-content-between align-items-center">
+          <img src={URL.createObjectURL(image)} width={"100px"} />
           <div>
-            <p className="mb-1">{image.name}</p>
-            <p className="mb-1">
+            <p className="mb-1 fw-bold">{image.name}</p>
+            <p className="mb-1 fst-italic text-success fw-bold">
               {image.size / 1024 < 900
                 ? (image.size / 1024).toFixed(2) + " KB"
                 : (image.size / (1024 * 1024)).toFixed(2) + " MB"}
             </p>
           </div>
-          <div>
-            <FontAwesomeIcon icon={faTrash} fontSize={15} />
-          </div>
+        </div>
+        <div className=" ">
+          <FontAwesomeIcon
+            icon={faTrash}
+            fontSize={20}
+            color="red"
+            className="mx-4"
+            onClick={handleRemove}
+          />
         </div>
       </div>
     );
@@ -87,47 +98,93 @@ function AddImageProperty() {
   return (
     <div>
       <NavBar />
-      <div className="property-image-page">
-        <Form
-          layout="vertical"
-          onFinish={handleSubmit}
-          className="w-50"
-          //   onFinishFailed={onFinishFailed}
-        >
-          <div className="propertyImageForm">
-            <FormHeader text={" صور العقار:"} icon="📷" />
-            <Row gutter={30}>
-              <Col xs={24} sm={24} lg={24} xl={24} xxl={24}>
-                <input
-                  ref={openImages}
-                  hidden
-                  type="file"
-                  multiple
-                  onChange={(e) => setImages([...e.target.files])}
-                  // onChange={handleImageChange}
-                />
-              </Col>
-            </Row>
-            <div
-              onClick={() => openImages.current.click()}
-              className="  d-flex justify-content-center rounded w-100 align-items-center flex-column gap-2 py-3"
-              style={{ border: "2px dashed #9daf9c", cursor: "pointer" }}
+      {isLoading ? (
+        <Loading>
+          <div className="property-image-page">
+            <Form
+              layout="vertical"
+              onFinish={handleSubmit}
+              className="w-50"
+              //   onFinishFailed={onFinishFailed}
             >
-              <img src={uploadImage} alt="Upload Image" width="100px" />
-              <p className="fw-bold mb-2" style={{ color: " #9daf9c" }}>
-                Click to Upload Images
-              </p>
+              <div className="propertyImageForm">
+                <FormHeader text={" صور العقار:"} icon="📷" />
+                <Row gutter={30}>
+                  <Col xs={24} sm={24} lg={24} xl={24} xxl={24}>
+                    <input
+                      ref={openImages}
+                      hidden
+                      type="file"
+                      multiple
+                      onChange={(e) => setImages([...e.target.files])}
+                      // onChange={handleImageChange}
+                    />
+                  </Col>
+                </Row>
+                <div
+                  onClick={() => openImages.current.click()}
+                  className="  d-flex justify-content-center rounded w-100 align-items-center flex-column gap-2 py-3"
+                  style={{ border: "2px dashed #9daf9c", cursor: "pointer" }}
+                >
+                  <img src={uploadImage} alt="Upload Image" width="100px" />
+                  <p className="fw-bold mb-2" style={{ color: " #9daf9c" }}>
+                    Click to Upload Images
+                  </p>
+                </div>
+              </div>
+              <div className="py-2 "> {showImages}</div>{" "}
+              <div className="propertyImageForm">
+                <Button type="primary" htmlType="submit" className="w-100 my-2">
+                  <FontAwesomeIcon icon={faTelegram} />
+                  <span className="mx-2"> إرسال</span>
+                </Button>
+              </div>
+            </Form>
+          </div>
+        </Loading>
+      ) : (
+        <div className="property-image-page">
+          <Form
+            layout="vertical"
+            onFinish={handleSubmit}
+            className="w-50"
+            //   onFinishFailed={onFinishFailed}
+          >
+            <div className="propertyImageForm">
+              <FormHeader text={" صور العقار:"} icon="📷" />
+              <Row gutter={30}>
+                <Col xs={24} sm={24} lg={24} xl={24} xxl={24}>
+                  <input
+                    ref={openImages}
+                    hidden
+                    type="file"
+                    multiple
+                    onChange={(e) => setImages([...e.target.files])}
+                    // onChange={handleImageChange}
+                  />
+                </Col>
+              </Row>
+              <div
+                onClick={() => openImages.current.click()}
+                className="  d-flex justify-content-center rounded w-100 align-items-center flex-column gap-2 py-3"
+                style={{ border: "2px dashed #9daf9c", cursor: "pointer" }}
+              >
+                <img src={uploadImage} alt="Upload Image" width="100px" />
+                <p className="fw-bold mb-2" style={{ color: " #9daf9c" }}>
+                  Click to Upload Images
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="py-2 "> {showImages}</div>{" "}
-          <div className="propertyImageForm">
-            <Button type="primary" htmlType="submit" className="w-100 my-2">
-              <FontAwesomeIcon icon={faTelegram} />
-              <span className="mx-2"> إرسال</span>
-            </Button>
-          </div>
-        </Form>
-      </div>
+            <div className="py-2 "> {showImages}</div>{" "}
+            <div className="propertyImageForm">
+              <Button type="primary" htmlType="submit" className="w-100 my-2">
+                <FontAwesomeIcon icon={faTelegram} />
+                <span className="mx-2"> إرسال</span>
+              </Button>
+            </div>
+          </Form>
+        </div>
+      )}
     </div>
   );
 }

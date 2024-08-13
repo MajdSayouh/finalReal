@@ -1,31 +1,30 @@
 import { Button, ConfigProvider, Form, Input, Select, Slider } from "antd";
 import "./searchForm-Style.css";
-import axios from "axios";
-import { BASE, GET_ALL_PROPS } from "../../../Auth/API";
+import { useMutation } from "@tanstack/react-query";
+import { getProperties } from "../../../services/apiProperty";
+import { useFilter } from "../../../context/FilterContext";
+import { useNavigate } from "react-router-dom";
 const SearchForm = () => {
-  const onFinish = (values) => {
-    console.log("Success:", values);
-    const price_lt = values.price[0];
-    const price_gt = values.price[1];
+  const { filter, setFilter } = useFilter();
+  const navigate = useNavigate();
 
-    console.log(price_lt);
-    console.log(price_gt);
+  const { mutate, isLoading } = useMutation({
+    mutationFn: (values) => getProperties(values),
+  });
+  function handleSubmit(values) {
+    console.log(values);
+    setFilter((prevState) => ({
+      ...prevState,
+      property_status: values.property_status,
+      city: values.city,
+    }));
+    mutate(values);
+    setTimeout(() => {
+      // Navigate to RentPage after setting the filter and waiting for 1-2 seconds
+      navigate("/rent"); // Adjust '/rentpage' to the actual path of your RentPage
+    }, 1000);
+  }
 
-    try {
-      const res = axios
-        .get(`${BASE}/${GET_ALL_PROPS}/`, {
-          params: {
-            price_gt,
-            price_lt,
-            city: values.city,
-            property_status: values.property_status,
-          },
-        })
-        .then((data) => console.log(data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -40,7 +39,7 @@ const SearchForm = () => {
             className=" p-3 gap-4 "
             size="small"
             layout="vertical"
-            onFinish={onFinish}
+            onFinish={handleSubmit}
             onFinishFailed={onFinishFailed}
           >
             <Form.Item
@@ -58,7 +57,7 @@ const SearchForm = () => {
 
             <Form.Item
               label="حالة العقار :"
-              name={"property_status"}
+              name="property_status"
               rules={[
                 {
                   required: true,
@@ -69,61 +68,54 @@ const SearchForm = () => {
               <Select
                 options={[
                   {
-                    value: "For Sale",
+                    value: "للبيع",
                     label: "للبيع",
                   },
                   {
-                    value: "For Rent",
+                    value: "للأجار",
                     label: "للإيجار",
                   },
                 ]}
               ></Select>
             </Form.Item>
-            <Form.Item
-              label="السعر"
-              name="price"
-              rules={[
-                {
-                  required: true,
-                  // message: "Please input your username!",
-                },
-              ]}
-            >
+            <Form.Item label="السعر">
               <ConfigProvider
                 theme={{
                   components: {
                     Slider: {
-                      handleActiveColor: "#9daf9c",
-                      handleColor: "#9daf9c",
-                      trackColor: "#9daf9c",
-                      dotActiveBorderColor: "#9daf9c",
-                      trackBg: "#9daf9c",
-                      trackHoverBg: "#9daf9c",
+                      handleActiveColor: "#198754",
+                      handleColor: "#198754",
+                      trackColor: "#198754",
+                      dotActiveBorderColor: "#198754",
+                      trackBg: "#198754",
+                      trackHoverBg: "#198754",
                     },
                   },
                 }}
               >
                 <Slider
+                  style={{ marginRight: 10 }}
                   range
-                  defaultValue={[50, 50000]}
-                  min={500}
+                  defaultValue={[100, 50000]}
+                  min={0}
                   max={50000}
                   step={500}
-                  // color="#9daf9c"
                 />
               </ConfigProvider>
             </Form.Item>
             <Form.Item>
-              <Button
-                size="sm"
-                className="btn"
-                style={{ backgroundColor: "#9daf9c", color: "white" }}
-                // type="primary"
-                htmlType="submit"
-                block
+              <button
+                size="small"
+                className="btn btn-success d-block w-100  "
+                // style={{ backgroundColor: "#198754", color: "white" }}
+                // htmlType="submit"
+                // block
+                // onClick={() => {
+                //   mutation.mutate({ id: showPropertyDetail.id });
+                // }}
               >
                 بحث
-              </Button>
+              </button>
             </Form.Item>
           </Form>
         </div>
@@ -133,41 +125,3 @@ const SearchForm = () => {
 };
 
 export default SearchForm;
-// <form className="form ">
-// <div className="form-control">
-//   <label htmlFor="staticEmail2" className="text-dark fs-6">
-//     Rent/Sale?
-//   </label>
-//   <input
-//     type="text"
-//     // className="form-control"
-//     id="staticEmail2"
-//     required
-//   />
-// </div>
-// <div className="form-control">
-//   <label htmlFor="inputPassword2 " className="text-dark fs-6">
-//     Price
-//   </label>
-//   <input
-//     type="text"
-//     // className="form-control"
-//     id="inputPassword2"
-//     placeholder="Password"
-//     required
-//   />
-// </div>
-// <div className="form-control">
-//   <label htmlFor="inputPassword2">Password</label>
-//   <input
-//     type="password"
-//     // className="form-control"
-//     id="inputPassword2"
-//     placeholder="Password"
-//     required
-//   />
-// </div>
-// <div className="form-control">
-//   <button className="btn btn-primary w-100">Search</button>
-// </div>
-// </form>

@@ -3,7 +3,7 @@ import "./loading.css";
 function Loading() {
   return (
     <div className="spinner-container-submit">
-      <Spin />
+      <Spin size="large" />
     </div>
   );
 }

@@ -1,9 +1,15 @@
-/* .label-form {
-  font-size: 24px;
-  font-weight: bold;
-  transform: translateX(0.9s);
-} */
-.input-form:focus + .label-form {
-  transform: translateY(-15px);
-  transition: transform 0.3s ease-in-out;
+.top-line:hover {
+    color: #198754 !important;
 }
+
+@media (max-width:576px){
+    .top-text{
+        visibility: hidden;    
+        margin-left: -0px;
+    }
+    .hero{
+        margin-left: 30%;
+
+    }
+   
+  }

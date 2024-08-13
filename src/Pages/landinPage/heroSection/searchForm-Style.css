@@ -10,7 +10,7 @@
     background-size: cover;
     background-repeat: no-repeat;
 
-    height: 20rem;
+    height: 21rem;
     border-radius: 12px;
     box-shadow: 0 0 60px rgba(0, 0, 0, 0.3);
     padding: 0px;
@@ -101,4 +101,5 @@
     .form-control input{
         width: 100%;
     }
+
 }

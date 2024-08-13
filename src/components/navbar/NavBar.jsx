@@ -2,20 +2,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
 import logo from "../../../src/assets/IMG-20231031-WA0001.jpg";
 
-import Cookie from "cookie-universal";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "@tanstack/react-query";
 import { getUserData } from "../../services/apiProperty";
 
 const NavBar = () => {
-  //States
-  // const [userName, setUserName] = useState("");
-
-  //Get Token
-  const token = new Cookie().get("Token");
-
   const logoStyle = {
     width: "50px",
     marginRight: "6px",
@@ -30,7 +22,6 @@ const NavBar = () => {
   console.log(getUserDataQery);
   const { data } = getUserDataQery;
   const userName = data?.data?.profile.full_name;
-  // console.log(data.data.profile.full_name);
   return (
     <div
       style={{
@@ -42,8 +33,8 @@ const NavBar = () => {
       <nav className="navbar navbar-expand-lg bg-light-subtle">
         <div className="container">
           <Link to={"/"} className="navbar-brand" href="#">
-            <img src={logo} style={logoStyle} />
-            HouseTic
+            <img src={logo} style={logoStyle} className="rounded-5 mx-2" />
+            <span className="fw-bold fst-italic medium">HouseTic</span>
           </Link>
           <button
             className="navbar-toggler"
@@ -59,24 +50,19 @@ const NavBar = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mx-4 mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to={"/"}>
+                <Link className="nav-link fw-bold" aria-current="page" to={"/"}>
                   الرئيسية
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={"/rent"}>
-                  للبيع
+                <Link className="nav-link fw-bold" to={"/rent"}>
+                  كل العقارات
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={"/sale"}>
-                  للآجار
+                <Link className="nav-link fw-bold" to={"/about-us"}>
+                  من نحن
                 </Link>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" aria-disabled="true">
-                  اخبار
-                </a>
               </li>
             </ul>
             <div className="d-flex align-items-center justify-content-between gap-3">
@@ -84,8 +70,8 @@ const NavBar = () => {
                 {userName === undefined ? (
                   <Link to={"/login"}>
                     <button
-                      className="btn"
-                      style={{ backgroundColor: "#9daf9c", color: "white" }}
+                      className="btn btn-success"
+                      style={{ color: "white" }}
                     >
                       تسجيل الدخول
                     </button>
@@ -94,9 +80,10 @@ const NavBar = () => {
                   userName && (
                     <Dropdown>
                       <Dropdown.Toggle
+                        className="btn btn-success"
                         style={{
-                          border: "1px solid #9daf9c",
-                          backgroundColor: "#9daf9c",
+                          // border: "1px solid #9daf9c",
+                          // backgroundColor: "#9daf9c",
                           color: "white",
                         }}
                         id="dropdown-basic"
@@ -123,7 +110,9 @@ const NavBar = () => {
                         </Dropdown.Item>
                         <Dropdown.Divider />
                         <Dropdown.Item>
-                          <button className="btn">تسجيل الخروج</button>
+                          <button className="btn btn-success">
+                            تسجيل الخروج
+                          </button>
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
@@ -131,10 +120,7 @@ const NavBar = () => {
                 )}
               </form>
               <Link to={"/dashboard"}>
-                <button
-                  className="btn"
-                  style={{ backgroundColor: "#9daf9c", color: "white" }}
-                >
+                <button className="btn btn-success" style={{ color: "white" }}>
                   إضافة عقار <FontAwesomeIcon icon={faBars} />
                 </button>
               </Link>

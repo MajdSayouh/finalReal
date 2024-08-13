@@ -21,7 +21,7 @@ function UserAdedProperties() {
   const userPropertyShow = userPropertyQuery.data.data?.map((prop, idx) => {
     if (userPropertyQuery.data?.data.length === 0)
       return <div key={idx}>لايوجد عقارات</div>;
-    return <Card propData={userPropertyQuery} key={idx} />;
+    return <Card rentData={prop} key={idx} />;
   });
 
   return (

@@ -3,11 +3,13 @@ import cardImage from "../../assets/IMG-20231031-WA0001.jpg";
 import NavBar from "../../components/navbar/NavBar";
 import styles from "../pages.module.css";
 import Footer from "../../components/Footer/Footer";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import {
   addToFavourite,
+  deleteProperty,
   deletFromFavourite,
+  // deletFromFavourite,
   getOneProperty,
 } from "../../services/apiProperty";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,27 +22,54 @@ import {
   faPhone,
   faShare,
   faStar,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { Col, message, Row, Spin } from "antd";
+import { Col, message, Row } from "antd";
 import "./details.css";
 import { faTypo3 } from "@fortawesome/free-brands-svg-icons";
 import Loading from "../../components/loading/Loading";
+import { Fragment, useState } from "react";
 
 function Details() {
   const { slug } = useParams();
+  const [heart, setHeart] = useState(false);
   console.log(slug);
-
+  const queryClient = useQueryClient();
   // ADD TO FAVOURITE MUTATION
   const mutation = useMutation({
     mutationFn: (property_id) => {
       return addToFavourite(property_id);
     },
+    onSuccess: () => {
+      setHeart(true);
+    },
   });
 
   // DELETE TO FAVOURITE MUTATION
-  const deleteMutation = useMutation({
+  const { mutate: deleteFavorite } = useMutation({
     mutationFn: (property_id) => {
       return deletFromFavourite(property_id);
+    },
+    onSuccess: () => {
+      // queryClient.invalidateQueries(["favourite"]);
+      message.success("تم ازالة العقار من المفضلة");
+      setHeart(false);
+    },
+    onError: () => {
+      (err) => message.error(err.message);
+    },
+  });
+
+  const { mutate, isLoading: deleteLoading } = useMutation({
+    mutationFn: (slug) => {
+      return deleteProperty(slug);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["ALL Properties"]);
+      message.success("تم حذف العقار بنجاح");
+    },
+    onError: () => {
+      (err) => message.error(err.message);
     },
   });
 
@@ -51,42 +80,44 @@ function Details() {
   });
 
   console.log(mutation);
-  const {
-    isPending: addPending,
-    isSuccess: addSuccess,
-    isError: addError,
-  } = mutation;
-
-  // if (addPending) return <Loading />;
+  const { isError: addError } = mutation;
 
   if (addError)
     message.error("حصل خطأ أثناء اضافة العقار, يرجى إعادة المحاولة");
 
   const { isLoading, isPending } = propertyDetail;
 
-  if (isLoading || isPending) return <Loading />;
+  if (isLoading || isPending) {
+    return (
+      <Fragment>
+        <NavBar />
+        <Loading />
+      </Fragment>
+    );
+  }
   console.log(propertyDetail.data?.data);
   const showPropertyDetail = propertyDetail.data?.data;
-
+  // if (!showPropertyDetail.images[0]) return <div>kuhyukftf</div>;
   return (
     <div className="w-100">
       <NavBar />
       <div className={styles.detailHero}>
-        <img
-          src={showPropertyDetail.images[0].image}
-          className={styles.Image}
-        />
+        {showPropertyDetail.images[0] ? (
+          <img
+            src={showPropertyDetail.images[0].image}
+            className="image-cover"
+          />
+        ) : (
+          <img src={"../../assets/download.jpeg"} className={styles.Image} />
+        )}
         <div
-          className={`${styles.textDetail} d-flex text-danger  justify-content-between  `}
+          className={`${styles.textDetail} d-flex text-white  justify-content-between  `}
         >
           <div className="d-flex align-items-center justify-content-between  gap-4  ">
             <Image src={cardImage} roundedCircle width={"50px"} />
             <h2>{showPropertyDetail.title}</h2>
           </div>
-          <button
-            className="btn"
-            style={{ backgroundColor: "#9daf9c", color: "white" }}
-          >
+          <button className="btn btn-success" style={{ color: "white" }}>
             {showPropertyDetail.phone_number} <FontAwesomeIcon icon={faPhone} />
           </button>
         </div>
@@ -98,20 +129,17 @@ function Details() {
       <div className=" bg-light ">
         <div className="container">
           <div className="d-flex m-auto justify-content-center gap-4 pt-3">
-            <button
-              className="btn"
-              style={{ backgroundColor: "#9daf9c", color: "white" }}
-            >
+            <button className="btn btn-success" style={{ color: "white" }}>
               تواصل{"    "}
               <FontAwesomeIcon icon={faContactBook} className="pr-4" />
             </button>
 
             {showPropertyDetail.is_favorite ? (
               <button
-                className="btn"
-                style={{ backgroundColor: "#9daf9c", color: "white" }}
+                className="btn btn-success"
+                style={{ color: "white" }}
                 onClick={() => {
-                  deleteMutation.mutate({ id: showPropertyDetail.id });
+                  deleteFavorite(showPropertyDetail.id);
                 }}
               >
                 <div>
@@ -121,21 +149,24 @@ function Details() {
               </button>
             ) : !showPropertyDetail.is_favorite ? (
               <button
-                className="btn"
-                style={{ backgroundColor: "#9daf9c", color: "white" }}
+                className="btn btn-success"
+                style={{ color: "white" }}
                 onClick={() => {
                   mutation.mutate({ id: showPropertyDetail.id });
                 }}
               >
                 <div>
                   <span> إضافة إلى المفضلة</span>
-                  <FontAwesomeIcon icon={faHeart} style={{ color: "gray" }} />
+                  <FontAwesomeIcon
+                    icon={faHeart}
+                    style={{ color: `${heart ? "red" : "gray"}` }}
+                  />
                 </div>
               </button>
             ) : (
               <button
-                className="btn"
-                style={{ backgroundColor: "#9daf9c", color: "white" }}
+                className="btn btn-success"
+                style={{ color: "white" }}
                 onClick={() => {
                   mutation.mutate({ id: showPropertyDetail.id });
                 }}
@@ -147,12 +178,24 @@ function Details() {
               </button>
             )}
 
-            <button
-              className="btn"
-              style={{ backgroundColor: "#9daf9c", color: "white" }}
-            >
+            <button className="btn btn-success" style={{ color: "white" }}>
               مشاركة <FontAwesomeIcon icon={faShare} />
             </button>
+
+            {showPropertyDetail.is_owner && (
+              <button
+                onClick={() =>
+                  mutate({
+                    slug: showPropertyDetail.slug,
+                  })
+                }
+                className="btn btn-danger"
+                style={{ color: "white" }}
+                disabled={deleteLoading}
+              >
+                حذف العقار <FontAwesomeIcon icon={faTrash} />
+              </button>
+            )}
           </div>
           <Row gutter={[15, 15]} className="pt-4">
             <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
@@ -197,29 +240,25 @@ function Details() {
                   <Row>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
                       {showPropertyDetail.images.length > 0 ? (
-                        <div className="img-container">
-                          <img
-                            src={showPropertyDetail.images[0].image}
-                            alt={showPropertyDetail.images[0].property}
-                          />
-                        </div>
+                        <Carousel>
+                          {showPropertyDetail.images.map((image, idx) => (
+                            <Carousel.Item
+                              key={idx}
+                              className="w-100 img-container "
+                            >
+                              <img
+                                className="d-block h-100 p-2 m-auto  img-fluid"
+                                src={image.image}
+                                alt={image.property}
+                              />
+                            </Carousel.Item>
+                          ))}
+                        </Carousel>
                       ) : (
                         <div>ما من صور لهذا العقار</div>
                       )}
                     </Col>
                   </Row>
-
-                  <Carousel>
-                    {showPropertyDetail.images.slice(1).map((image, idx) => (
-                      <Carousel.Item key={idx} className="w-100">
-                        <img
-                          className="d-block w-50 p-2 m-auto img-fluid"
-                          src={image.image}
-                          alt={image.property}
-                        />
-                      </Carousel.Item>
-                    ))}
-                  </Carousel>
                 </div>
               </div>
             </Col>

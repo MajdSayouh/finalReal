@@ -19,6 +19,7 @@ import PropertyIdLayout from "./features/property/PropertyIdLayout";
 import UserProperties from "./features/user/UserProperties";
 import UserAdedProperties from "./features/user/UserAdedProperties";
 import UserFavorites from "./features/user/UserFavorites";
+import AllProperties from "./Pages/porperties/AllProperties";
 
 function App() {
   const queryClient = new QueryClient({
@@ -39,7 +40,10 @@ function App() {
 
           <Route path={"/"} element={<HomePage />} />
           <Route path={"/details/:slug"} element={<Details />} />
-          <Route path={"/rent"} element={<RentPage />}></Route>
+
+          <Route path={"/rent"} element={<RentPage />}>
+            <Route path={""} element={<AllProperties />} />
+          </Route>
 
           <Route element={<RequireAuth />}>
             <Route path={"/profile"} element={<UserProfile />} />
